@@ -15,7 +15,11 @@ app.get("/about", (req:any, res:any) => {
   res.write('<h1>About us page</h1>');
   res.end();
 });
-
+app.get("/hello", (req: any, res: any) => {
+  console.log(`end point: "/hello"`);
+  res.writeHead(200, {'Content-Type': 'text/html'});
+  res.write('<h1>Hello World!</h1>');
+});
 app.listen(port, () => {
   console.log(`app listening on port ${port}`);
 });
