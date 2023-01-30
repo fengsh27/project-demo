@@ -11,13 +11,14 @@ pr:
 pool:
   vmImage: ubuntu-latest
 
-steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '16.19.x'
-  displayName: 'Install Node.js'
-
-- script: |
-    yarn install
-    yarn test
-  displayName: 'yarn install and test'
+stages:
+- stage: BuildApp
+  jobs:
+  - job: BuildPushImage
+    steps:
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'Docker Hub Connection'
+        repository: 'project-demo'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
