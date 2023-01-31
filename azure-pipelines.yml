@@ -19,6 +19,6 @@ stages:
     - task: Docker@2
       inputs:
         containerRegistry: 'Docker Hub Connection'
-        repository: 'azure-devops'
+        repository: 'frankfeng78/azure-devops'
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
