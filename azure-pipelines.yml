@@ -11,8 +11,32 @@ pr:
 pool:
   vmImage: ubuntu-latest
 
+variables:
+  # pipeline conditions
+  isMain:       ${{ eq(variables['Build.SourceBranch'], 'refs/heads/main') }}
+  isProduction: ${{ eq(variables['Build.SourceBranch'], 'refs/heads/production') }}
+
 stages:
+- stage: Test
+  displayName: Test stage
+  condition: eq(variables.isMain, 'True')
+  jobs:
+  - job: Test
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSource: 'spec'
+        versionSpec: '16.19.x'
+    - script: |
+        yarn install
+        yarn test
+      displayName: 'yarn install && test'
+
+
+
 - stage: BuildApp
+  displayName: build and push stage
+  condition: eq(variables.isProduction, 'True')
   jobs:
   - job: BuildPushImage
     steps:
@@ -22,3 +46,4 @@ stages:
         repository: 'frankfeng78/azure-devops'
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
+  
