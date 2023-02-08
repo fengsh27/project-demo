@@ -1,7 +1,7 @@
 
 const express = require("express");
 const app = express();
-const port = 9003;
+const port = 80;
 
 app.get("/", (req:any, res:any) => {
   res.writeHead(200, {'Content-Type': 'text/html'});
@@ -16,8 +16,9 @@ app.get("/about", (req:any, res:any) => {
 app.get("/hello", (req: any, res: any) => {
   console.log(`end point: "/hello"`);
   res.writeHead(200, {'Content-Type': 'text/html'});
-  res.write('<h1>Hello World!</h1>');
+  res.write('<h1>Hello World!</h1><div>You are witnessing history!</div>');
 });
+
 app.listen(port, () => {
   console.log(`app listening on port ${port}`);
 });
