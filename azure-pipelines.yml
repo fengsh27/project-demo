@@ -5,6 +5,8 @@
 
 trigger:
 - main
+- release/*
+- production/*
 pr:
 - main
 
