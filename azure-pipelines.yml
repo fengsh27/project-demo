@@ -50,3 +50,9 @@ stages:
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
   
+# - stage: DevDeploy
+#   displayName: deploy development
+#   condition: eq(variables.isRelease, 'True')
+#   jobs:
+#     - job: Deploy
+#       steps:
