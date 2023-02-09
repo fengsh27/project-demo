@@ -24,6 +24,7 @@ variables:
   ACR.Name: 'projectdemo'
   ACR.ImageName: '$(ACR.Name):$(Build.BuildId)'
   ACR.FullName: '$(ACR.Name).azurecr.io'
+  ACR.RepoName: 'projectdemodeploy'
 
 stages:
 - stage: Test
@@ -52,13 +53,13 @@ stages:
     - task: Docker@2
       inputs:
         containerRegistry: 'demo-azure-registry-connection1'
-        repository: 'projectdemodeploy'
+        repository: '$(ACR.RepoName)'
         command: 'build'
         Dockerfile: '**/Dockerfile'
     - task: Docker@2
       inputs:
         containerRegistry: 'demo-azure-registry-connection1'
-        repository: 'projectdemodeploy'
+        repository: '$(ACR.RepoName)'
         command: 'push'
   
 - stage: DevDeploy
@@ -73,8 +74,8 @@ stages:
           azureSubscription: 'NIH-Awd.OSU.NICHD.BMICloudComputing (336bf15c-53ea-4b44-9489-ca22bafe881b)'
           appType: 'webAppContainer'
           WebAppName: 'projdemo1'
-          DockerNamespace: 'projectdemo'
-          DockerRepository: 'projectdemodeploy'
+          DockerNamespace: '${ACR.FullName}'
+          DockerRepository: '$(ACR.RepoName)'
           DockerImageTag: '$(Build.BuildId)'
           StartupCommand: 'yarn start'
 
