@@ -19,6 +19,11 @@ variables:
   isMain:       ${{ eq(variables['Build.SourceBranch'], 'refs/heads/main') }}
   isRelease:    ${{ startsWith(variables['Build.SourceBranch'], 'refs/heads/release') }}
   isProduction: ${{ startsWith(variables['Build.SourceBranch'], 'refs/heads/production') }}
+  
+  # build information
+  ACR.Name: 'projectdemo'
+  ACR.ImageName: '$(ACR.Name):$(Build.BuildId)'
+  ACR.FullName: '$(ACR.Name).azurecr.io'
 
 stages:
 - stage: Test
@@ -46,24 +51,25 @@ stages:
     steps:
     - task: Docker@2
       inputs:
-        containerRegistry: 'demo-connection1'
+        containerRegistry: 'demo-azure-registry-connection1'
         repository: 'projectdemo'
-        command: 'buildAndPush'
+        command: 'build'
         Dockerfile: '**/Dockerfile'
   
-# - stage: DevDeploy
-#   displayName: deploy development
-#   condition: eq(variables.isRelease, 'True')
-#   jobs:
-#     - job: Deploy
-#       steps:
-- task: AzureRmWebAppDeployment@4
-  inputs:
-    ConnectionType: 'AzureRM'
-    azureSubscription: 'NIH-Awd.OSU.NICHD.BMICloudComputing (336bf15c-53ea-4b44-9489-ca22bafe881b)'
-    appType: 'webAppContainer'
-    WebAppName: 'projdemo1'
-    DockerNamespace: 'projectdemo'
-    DockerRepository: 'projectdemo'
-    DockerImageTag: 'latest'
-    StartupCommand: 'yarn start'
+- stage: DevDeploy
+  displayName: deploy development
+  condition: eq(variables.isRelease, 'True')
+  jobs:
+    - job: Deploy
+      steps:
+      - task: AzureRmWebAppDeployment@4
+        inputs:
+          ConnectionType: 'AzureRM'
+          azureSubscription: 'NIH-Awd.OSU.NICHD.BMICloudComputing (336bf15c-53ea-4b44-9489-ca22bafe881b)'
+          appType: 'webAppContainer'
+          WebAppName: 'projdemo1'
+          DockerNamespace: 'projectdemo'
+          DockerRepository: 'projectdemo'
+          DockerImageTag: '$(Build.BuildId)'
+          StartupCommand: 'yarn start'
+
