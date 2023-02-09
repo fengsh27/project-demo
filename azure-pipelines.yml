@@ -45,16 +45,21 @@ stages:
 
 - stage: BuildApp
   displayName: build and push stage
-  condition: or(eq(variables.isRelease, 'True'), eq(variables.isProduction, 'True'))
+  condition: or(eq(variables.isMain, 'True'), eq(variables.isRelease, 'True'), eq(variables.isProduction, 'True'))
   jobs:
   - job: BuildPushImage
     steps:
     - task: Docker@2
       inputs:
         containerRegistry: 'demo-azure-registry-connection1'
-        repository: 'projectdemo'
+        repository: 'projectdemodeploy'
         command: 'build'
         Dockerfile: '**/Dockerfile'
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'demo-azure-registry-connection1'
+        repository: 'projectdemodeploy'
+        command: 'push'
   
 - stage: DevDeploy
   displayName: deploy development
@@ -69,7 +74,7 @@ stages:
           appType: 'webAppContainer'
           WebAppName: 'projdemo1'
           DockerNamespace: 'projectdemo'
-          DockerRepository: 'projectdemo'
+          DockerRepository: 'projectdemodeploy'
           DockerImageTag: '$(Build.BuildId)'
           StartupCommand: 'yarn start'
 
