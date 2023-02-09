@@ -52,9 +52,14 @@ stages:
     - task: Docker@2
       inputs:
         containerRegistry: 'demo-azure-registry-connection1'
-        repository: 'projectDemo'
-        command: 'buildAndPush'
+        repository: 'projectDemoDeploy'
+        command: 'build'
         Dockerfile: '**/Dockerfile'
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'demo-azure-registry-connection1'
+        repository: 'projectDemoDeploy'
+        command: 'push'
   
 - stage: DevDeploy
   displayName: deploy development
