@@ -21,7 +21,7 @@ try {
     );
     is_in_azure = true;
 } catch (err: any) {
-    console.log(err);
+    console.log(err.message);
 }
 
 // Create a tracer.
