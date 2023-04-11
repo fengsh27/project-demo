@@ -29,7 +29,9 @@ variables:
 stages:
 - stage: Test
   displayName: Test stage
-  condition: or(eq(variables.isMain, 'True'), eq(variables.isRelease, 'True'), eq(variables.isProduction, 'True'))
+  # don't need condition check here, as pipeline only is invoked in pr to main, 
+  # and changes to main, release and production branch
+  # condition: or(eq(variables.isMain, 'True'), eq(variables.isRelease, 'True'), eq(variables.isProduction, 'True'))
   jobs:
   - job: Test
     steps:
