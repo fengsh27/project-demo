@@ -1,7 +1,10 @@
 
 const express = require("express");
 const app = express();
+<<<<<<< HEAD
 require("./initTelemetry");
+=======
+>>>>>>> release/rabbit
 const port = 80;
 
 app.get("/", (req:any, res:any) => {
@@ -19,10 +22,15 @@ app.get("/hello", (req: any, res: any) => {
   console.log(`end point: "/hello"`);
   res.writeHead(200, {'Content-Type': 'text/html'});
   res.write('<h1>Hello World!</h1><div>You are witnessing history!</div>');
+<<<<<<< HEAD
   res.end();
 });
 app.get("/visit", (req: any, res: any) => {
   console.log(`end point: "/visit"`);
+=======
+});
+app.get("/visit", (req: any, res: any) => {
+>>>>>>> release/rabbit
   res.writeHead(200, {'Content-Type': 'text/html'});
   res.write('<h1>You are an visitor!</h1>');
   res.end();
