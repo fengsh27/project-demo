@@ -1,10 +1,8 @@
 
 const express = require("express");
 const app = express();
-<<<<<<< HEAD
 require("./initTelemetry");
-=======
->>>>>>> release/rabbit
+
 const port = 80;
 
 app.get("/", (req:any, res:any) => {
