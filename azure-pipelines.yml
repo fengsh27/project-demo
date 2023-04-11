@@ -73,7 +73,7 @@ stages:
           ConnectionType: 'AzureRM'
           azureSubscription: 'NIH-Awd.OSU.NICHD.BMICloudComputing (336bf15c-53ea-4b44-9489-ca22bafe881b)'
           appType: 'webAppContainer'
-          WebAppName: 'projdemo1'
+          WebAppName: 'projdemo'
           DockerNamespace: '$(ACR.FullName)'
           DockerRepository: '$(ACR.RepoName)'
           DockerImageTag: '$(Build.BuildId)'
